@@ -1,6 +1,3 @@
-const { ListNode } = require('../extensions/list-node.js');
-const { arrayToList } = require('./lib/utils.js');
-
 /**
  * Given a singly linked list of integers l and an integer k,
  * remove all elements from list l that have a value equal to k.
@@ -22,15 +19,25 @@ const { arrayToList } = require('./lib/utils.js');
  * }
  */
 const removeKFromList = (l, k) => {
-  const arr = [];
+  let currentNode = l;
 
-  while (l) {
-    if (!(l.value === k)) {
-      arr.push(l.value);
-    }
-    l = l.next;
+  if (!currentNode || (!currentNode.next && currentNode.value === k)) {
+    l = null;
   }
-  return arrayToList(arr);
+
+  while (currentNode.next) {
+    if (currentNode.value === k) {
+      currentNode.value = currentNode.next.value;
+      currentNode.next = currentNode.next.next;
+    }
+    if (currentNode.next.value === k) {
+      currentNode.next = currentNode.next.next;
+    }
+    if (currentNode.next) {
+      currentNode = currentNode.next
+    };
+  };
+  return l;
 };
 
 module.exports = {
